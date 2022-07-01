@@ -26,5 +26,7 @@
 #' Bioinformatics}, Vol. 8, pg. 340,
 #' \url{https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-8-340}.
 #' @keywords datasets
+#' @examples
+#' data(cells)
+#' str(cells)
 NULL
-

@@ -15,7 +15,7 @@ De Cock, D. (2011). "Ames, Iowa: Alternative to the Boston Housing Data as an En
 \item{ames}{a tibble}
 }
 \description{
-A data set from De Cock (2011) has 82 fields were recored for 2,930
+A data set from De Cock (2011) has 82 fields were recorded for 2,930
 properties in Ames IA. This version is copies from the \code{AmesHousing} package
 but does not include a few quality columns that appear to be outcomes
 rather than predictors.
@@ -24,7 +24,7 @@ rather than predictors.
 See this links for the sources below for more information as well as
 \code{?AmesHousing::make_ames}.
 
-For these data, the training materials typically use:\if{html}{\out{<div class="r">}}\preformatted{library(tidymodels)
+For these data, the training materials typically use:\if{html}{\out{<div class="sourceCode r">}}\preformatted{library(tidymodels)
 
 set.seed(4595)
 data_split <- initial_split(ames, strata = "Sale_Price")
@@ -34,5 +34,9 @@ ames_test  <- testing(data_split)
 set.seed(2453)
 ames_folds<- vfold_cv(ames_train)
 }\if{html}{\out{</div>}}
+}
+\examples{
+data(ames)
+str(ames)
 }
 \keyword{datasets}

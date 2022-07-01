@@ -1,3 +1,9 @@
+# modeldata 1.0.0
+
+* Added a set of regression and classification simulation functions (#273).
+
+* Remove OkCupid data, including text data, because of privacy concerns.
+
 # modeldata 0.1.1
 
 * Add Tate Gallery modern artwork metadata.
