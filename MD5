@@ -1,7 +1,7 @@
-05d22f25a649a6bcdbe607742e0e8ee2 *DESCRIPTION
+44c0ffff86e629c16732c3c8a53b2c8f *DESCRIPTION
 44b42abf175150c1e37a8d871caac748 *LICENSE
 e17c8eea27ed728b2e4ac4d619246dc3 *NAMESPACE
-f0f39a28728d223139446a4ef02634b2 *NEWS.md
+868bbf1ed7fa991592c8719a78b6e874 *NEWS.md
 da59251dad6a0d68563c54111a7ea91e *R/Chicago.R
 540cf5f818f50dbda8e2fa96069682af *R/Smithsonian.R
 4b62932189ea628cc73d3abf05e29acf *R/ad_data.R
@@ -33,7 +33,7 @@ bd848447331e9cdb5dde901e493da54d *R/pd_speech.R
 d97789e088bf4a5c04b9a9626842c4a0 *R/reexports.R
 19ef2bebeee54b50814c7054e7e70847 *R/sacremento.R
 bf50595dd8c7317003f9593d4a9f5b71 *R/scat.R
-8132f278ba15ffe8bf6a212481a2ddea *R/simulations.R
+ebd3ff19db889d4414c76c92bead824c *R/simulations.R
 2eb872a5145efaa5561f0ca678dd2b59 *R/solubility.R
 b3662c53f663f42583b7c4ef06fa60c5 *R/stackoverflow.R
 c50b0b351187d7847172975acb3c4885 *R/tate_text.R
@@ -81,7 +81,7 @@ cd0d726b26be2228ab68c3488997efc1 *data/stackoverflow.rda
 c9fef38db24668845f8fbf076316ff30 *man/Sacramento.Rd
 a5b0b1de31ebbecb2bf7485779d1769a *man/Smithsonian.Rd
 0ff73bc6c9f16056896879c3372f7138 *man/ad_data.Rd
-5acca58eaba8b57a8446d1762951cb8e *man/ames.Rd
+c7ac71e1e34b8c99c47dba77328ab63c *man/ames.Rd
 e28df6db1be1c0e4eaf8d5f3976652c5 *man/attrition.Rd
 06de25ddabb9120fbac6d336a4306b3b *man/biomass.Rd
 ab6d35b0ab54de0b2e3bad0e607994c5 *man/bivariate.Rd
@@ -109,7 +109,7 @@ ebe466adc1443ccb1f8ed5d133a9f8b6 *man/penguins.Rd
 772c0db24485b252f175bad78554930c *man/reexports.Rd
 568c0ce1cf7d4f74bbda8a139b41fe42 *man/rmd/ames.md
 bc365d3d329ca038f4acb91379c52b6a *man/scat.Rd
-036b2ad2517275cb975a98808c224aa0 *man/sim_classification.Rd
+6bf55ec1553e28816eee5fa7a73e365a *man/sim_classification.Rd
 a307b14278c84f680d54199681499eba *man/small_fine_foods.Rd
 b6d77e683d4ec39729f6fd4bec160821 *man/solubility_test.Rd
 0cd68cb1e3b04ceba7f7fbff43dadeff *man/stackoverflow.Rd

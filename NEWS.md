@@ -1,3 +1,7 @@
+# modeldata 1.0.1
+
+* Small update to fix HTML  for CRAN. 
+
 # modeldata 1.0.0
 
 * Added a set of regression and classification simulation functions (#273).
