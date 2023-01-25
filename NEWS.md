@@ -1,3 +1,13 @@
+# modeldata 1.1.0
+
+* Added a `keep_truth` argument to the supervised simulation functions. This retains the column that defines the error free simulated value of the outcome. This numeric column is called `.truth`. 
+
+* A simulation functions were added: 
+
+  * `sim_logistic()` and `sim_multinomial()` were added. 
+  
+  * A method for Hooker (2004) was added for `sim_regression()`. 
+
 # modeldata 1.0.1
 
 * Small update to fix HTML  for CRAN. 
