@@ -1,3 +1,18 @@
+# modeldata 1.2.0
+
+* New data sets 
+
+  - `chem_proc_yield` (regression)
+  - `hepatic_injury_qsar` (ordinal classification)
+  - `hotel_rates`  (regression)
+  - `ischemic_stroke` (classification)
+  - `leaf_id_flavia` (classification)
+  - `permeability_qsar` (regression)
+  - `steroidogenic_toxicity` (classification)
+  - `taxi` (classification)
+
+* The simulation equation for Hooker (2004) was slightly incorrect and has been corrected. 
+
 # modeldata 1.1.0
 
 * Added a `keep_truth` argument to the supervised simulation functions. This retains the column that defines the error free simulated value of the outcome. This numeric column is called `.truth`. 
