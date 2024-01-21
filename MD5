@@ -1,7 +1,7 @@
-8aa244802a7ec89b04c3ecc9878ba7a7 *DESCRIPTION
+9bf687dbf34d6862ac2d7fdf2cdda4ce *DESCRIPTION
 a39f3682becaeb31a25af9d9e76f4504 *LICENSE
 9d89d505dcfe61755cc4336d8bb5830e *NAMESPACE
-db6ff8784119f1f27a4f1e7cf47b79a1 *NEWS.md
+fc7a193ca09b9b588846a815fa89d2a9 *NEWS.md
 da59251dad6a0d68563c54111a7ea91e *R/Chicago.R
 540cf5f818f50dbda8e2fa96069682af *R/Smithsonian.R
 4b62932189ea628cc73d3abf05e29acf *R/ad_data.R
@@ -18,6 +18,7 @@ a5d3e77050cf6a26481ab227846e33dc *R/churn.R
 6d8b0d1e44553c22a9a5c25c03ee96fc *R/covers.R
 d164358c94aad14c959f2a383563c83d *R/credit_data.R
 2728eae09fc6f850ca6c92c4cc777ba5 *R/crickets.R
+ee0fe3c6168a7cf89d65fbcb3b93185d *R/deliveries.R
 020a5319e4ee32ea134f91e74ede731d *R/drinks.R
 bec2ffe714652563c310b55737ddee1c *R/fine_foods.R
 37d2feb312ff8173089420c67ef364fa *R/grants.R
@@ -44,11 +45,11 @@ bf50595dd8c7317003f9593d4a9f5b71 *R/scat.R
 b3662c53f663f42583b7c4ef06fa60c5 *R/stackoverflow.R
 d1d485c16ccc64561f70bbc13ceae71b *R/steroidogenic_toxicity.R
 c50b0b351187d7847172975acb3c4885 *R/tate_text.R
-a8140644ee30fd01b87a270df244f8bd *R/taxi.R
+a69d55abd3ad106411d7b9b0b18575fd *R/taxi.R
 583df91b7c61629cecfd7ddc89fff8e2 *R/two_class_dat.R
 1b38fb8a1e3c5d67c22b80ca810c787b *R/wa_churn.R
 8781ab180b273e30e7d091b1cd6ed04d *README.md
-7080893e02c49cd296d4424b9be55069 *build/partial.rdb
+8faf250d78a120ba4c7ea2186efddd24 *build/partial.rdb
 590493d381409f05a467616ce039a786 *data/Chicago.rda
 6b5fbfc2c53fdbfad061381207472e8b *data/Sacramento.RData
 f1b618ee84ff76424f9fc2bf115198b4 *data/Smithsonian.RData
@@ -65,7 +66,8 @@ c63c6ce057163fcd18d2266147327b63 *data/attrition.RData
 284d16b49994189ad9ca68acb8370188 *data/covers.RData
 64dddbafa12b116014ee324d478d1cb0 *data/credit_data.RData
 97c1572e3483c222c6c798296e4f2e91 *data/crickets.rda
-8c9967e3ed633522db66738368dfb486 *data/datalist
+1ea66a8cb5b0f92d7c2a77d48597cf72 *data/datalist
+fef56f1dc74fbdb2f07aa0048cbf9cc8 *data/deliveries.rda
 adb3496011f0d4346cb8f2bd3d7a5a18 *data/drinks.rda
 b4857b4763939ade4675ad559060b5e7 *data/grants.rda
 4cbbfc56690d0e0f5160f5b33dcd4815 *data/hepatic_injury_qsar.rda
@@ -109,6 +111,7 @@ a34cfeb3712717f8d8f3fc19c12a3263 *man/concrete.Rd
 b0b0dc98cbfa5e159293cc67ce0215f9 *man/covers.Rd
 1a5155f4aeb226097605b3effab8e6be *man/credit_data.Rd
 4fe4bbf2862d34a532dc5d3628f17309 *man/crickets.Rd
+0c039650b236261dd155ecb194af2047 *man/deliveries.Rd
 2b265b7e8f9f74fbdcf1a30e769c7176 *man/drinks.Rd
 a1b8c987c676c16af790f563f96cbb1f *man/figures/lifecycle-deprecated.svg
 5c8591123d6d8d84b13b4eee2fc3f8d5 *man/grants.Rd
@@ -137,7 +140,7 @@ b6d77e683d4ec39729f6fd4bec160821 *man/solubility_test.Rd
 0cd68cb1e3b04ceba7f7fbff43dadeff *man/stackoverflow.Rd
 e81b6324ccdf8b06ce9723c9956eed19 *man/steroidogenic_toxicity.Rd
 4c96a596b92ea3847c17fc0734a1b213 *man/tate_text.Rd
-b1fbc2d1721579e9e9934a7c1f8c3bbe *man/taxi.Rd
+c558ff064d04188ad0dc208e85d6e839 *man/taxi.Rd
 14d05c8239b74ff9411f230c524a901e *man/two_class_dat.Rd
 4d02b053e56950753f2bfa99269d9c07 *man/two_class_example.Rd
 ffd9b5cdc97b2b80d887d8e925d8bbc8 *man/wa_churn.Rd
