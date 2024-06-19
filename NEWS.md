@@ -1,4 +1,8 @@
-# modeldata (development version)
+# modeldata 1.4.0
+
+* Added the `cat_adoption` data set.  
+
+# modeldata 1.3.0
 
 * Added the `deliveries` data set.  
 
