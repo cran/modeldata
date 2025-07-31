@@ -6,8 +6,9 @@
 #' @param num_samples Number of data points to simulate.
 #' @param method A character string for the simulation method. For
 #' classification, the single current option is "caret". For regression,
-#' values can be "sapp_2014_1", "sapp_2014_2", "van_der_laan_2007_1", or
-#' "van_der_laan_2007_2". See Details below.
+#' values can be `"sapp_2014_1"`, `"sapp_2014_2"`, `"van_der_laan_2007_1"`,
+#' `"van_der_laan_2007_2"`, `"hooker_2004"`, or `"worley_1987"`. See Details
+#' below.
 #' @param intercept The intercept for the linear predictor.
 #' @param num_linear Number of diminishing linear effects.
 #' @param std_dev Gaussian distribution standard deviation for residuals.
@@ -148,6 +149,31 @@
 #' uniform on `[0.6, 1.0]`. The errors are normal with mean zero and default
 #' standard deviation of 0.25.
 #'
+#' ### `method = "worley_1987"`
+#'
+#' The simulation system from Worley (1987) is based on a mechanistic model for
+#' the flow rate of liquids from two aquifers positioned vertically (i.e.,
+#' the "upper" and "lower" aquifers). There are two sets of predictors:
+#'
+#'  - the borehole radius (`radius_borehole` from 0.05 to 0.15) and length
+#'    (`length_borehole` from 1,120 to 1,680) .
+#' - The radius of effect that the system has on collecting water
+#'    (`radius_influence` from 100 to 50,000)
+#'
+#' and physical properties:
+#'
+#' -  `transmissibility_upper_aq`
+#' -  `potentiometric_upper_aq`
+#' -  `transmissibility_lower_aq`
+#' -  `potentiometric_lower_aq`
+#' -  `conductivity_borehole`
+#'
+#' A multiplicative error structure is used; the mechanistic equation is
+#' multiplied by an expoentiated Gaussian random error.
+#'
+#' The references give feasible ranges for each of these variables. See also
+#' Morris _et al_ (1993).
+#'
 #' ## `sim_noise()`
 #'
 #' This function simulates a number of random normal variables with mean zero.
@@ -186,23 +212,31 @@
 #' values.
 #'
 #' @references
-#' Van der Laan, M. J., Polley, E. C., & Hubbard, A. E. (2007). Super learner.
-#' _Statistical applications in genetics and molecular biology_, 6(1).
-#' DOI: 10.2202/1544-6115.1309.
-#'
-#' Sapp, S., van der Laan, M. J., & Canny, J. (2014). Subsemble: an ensemble
-#' method for combining subset-specific algorithm fits. _Journal of applied
-#' statistics_, 41(6), 1247-1259. DOI: 10.1080/02664763.2013.864263
-#'
 #' Hooker, G. (2004, August). Discovering additive structure in black box
 #' functions. In _Proceedings of the tenth ACM SIGKDD international conference
 #' on Knowledge discovery and data mining_ (pp. 575-580).
 #' DOI: 10.1145/1014052.1014122
 #'
-#' Sorokina, D., Caruana, R., Riedewald, M., & Fink, D. (2008, July). Detecting
+#' Morris, M. D., Mitchell, T. J., and Ylvisaker, D. (1993). Bayesian design
+#' and analysis of computer experiments: use of derivatives in surface
+#' prediction. _Technometrics_, 35(3), 243-255.
+#'
+#' Sapp, S., van der Laan, M. J., and Canny, J. (2014). Subsemble: an ensemble
+#' method for combining subset-specific algorithm fits. _Journal of applied
+#' statistics_, 41(6), 1247-1259. DOI: 10.1080/02664763.2013.864263
+#'
+#' Sorokina, D., Caruana, R., Riedewald, M., and Fink, D. (2008, July). Detecting
 #' statistical interactions with additive groves of trees. In _Proceedings of
 #' the 25th international conference on Machine learning_ (pp. 1000-1007).
 #' DOI: 10.1145/1390156.1390282
+#'
+#' Van der Laan, M. J., Polley, E. C., and Hubbard, A. E. (2007). Super learner.
+#' _Statistical applications in genetics and molecular biology_, 6(1).
+#' DOI: 10.2202/1544-6115.1309.
+#'
+#' Worley, B. A. (1987). Deterministic uncertainty analysis (No. ORNL-6428). Oak
+#' Ridge National Lab.(ORNL), Oak Ridge, TN/
+#'
 #'
 #' @examples
 #' set.seed(1)
@@ -214,7 +248,7 @@
 #'   library(dplyr)
 #'   library(ggplot2)
 #'
-#'   sim_logistic(1000, ~ .1 + 2 * A - 3 * B + 1 * A *B, corr = .7) %>%
+#'   sim_logistic(1000, ~ .1 + 2 * A - 3 * B + 1 * A *B, corr = .7) |>
 #'     ggplot(aes(A, B, col = class)) +
 #'     geom_point(alpha = 1/2) +
 #'     coord_equal()
@@ -223,7 +257,7 @@
 #'   # or
 #'   f_xor <- rlang::expr(10 * xor(A > 0, B < 0))
 #'
-#'   sim_logistic(1000, f_xor, keep_truth = TRUE) %>%
+#'   sim_logistic(1000, f_xor, keep_truth = TRUE) |>
 #'     ggplot(aes(A, B, col = class)) +
 #'     geom_point(alpha = 1/2) +
 #'     coord_equal() +
@@ -249,7 +283,7 @@
 #       ~ ifelse(A > 0 & B > 0, 1.0 + 0.2 * A / B, - 2),
 #       ~ -0.6 * A + 0.50 * B -  A * B)
 #
-#   three_classes %>%
+#   three_classes |>
 #     ggplot(aes(A, B, col = class, pch = class)) +
 #     geom_point(alpha = 3/4) +
 #     facet_wrap(~ class) +
@@ -257,10 +291,19 @@
 #     theme_bw()
 #' }
 #' @export
-sim_classification <- function(num_samples = 100, method = "caret",
-                               intercept = -5, num_linear = 10,
-                               keep_truth = FALSE) {
+sim_classification <- function(
+  num_samples = 100,
+  method = "caret",
+  intercept = -5,
+  num_linear = 10,
+  keep_truth = FALSE
+) {
   method <- rlang::arg_match0(method, "caret", arg_nm = "method")
+  check_number_whole(num_samples, min = 1)
+  check_number_whole(num_linear, min = 0)
+  check_number_decimal(intercept)
+  check_single_logical(keep_truth)
+
 
   if (method == "caret") {
     # Simulate two correlated normal variates
@@ -277,39 +320,48 @@ sim_classification <- function(num_samples = 100, method = "caret",
 
     linear_pred <-
       rlang::expr(
-        !!intercept - 4 * two_factor_1 + 4 * two_factor_2 +
+        !!intercept -
+          4 * two_factor_1 +
+          4 * two_factor_2 +
           2 * two_factor_1 * two_factor_2 +
-          (non_linear_1^3) + 2 * exp(-6 * (non_linear_1 - 0.3)^2) +
+          (non_linear_1^3) +
+          2 * exp(-6 * (non_linear_1 - 0.3)^2) +
           2 * sin(pi * non_linear_2 * non_linear_3)
       )
 
     # Simulate a series of linear coefficients
     if (num_linear > 0) {
-      dat_linear <- matrix(stats::rnorm(num_samples * num_linear), ncol = num_linear)
+      dat_linear <- matrix(
+        stats::rnorm(num_samples * num_linear),
+        ncol = num_linear
+      )
       lin_names <- names0(num_linear, "linear_")
       colnames(dat_linear) <- lin_names
       lin_symbols <- rlang::syms(lin_names)
       lin_coefs <-
-        seq(10, 1, length = num_linear) / 4 *
+        seq(10, 1, length = num_linear) /
+        4 *
         rep_len(c(-1, 1), length.out = num_linear)
       lin_expr <-
-        purrr::map2(lin_coefs, lin_symbols, ~ rlang::expr(!!.x * !!.y)) %>%
+        purrr::map2(lin_coefs, lin_symbols, ~ rlang::expr(!!.x * !!.y)) |>
         purrr::reduce(function(l, r) rlang::expr(!!l + !!r))
       .truth <- rlang::expr(!!linear_pred + !!lin_expr)
       dat <- cbind(dat, dat_linear)
     }
   }
 
+  dat <- tibble::as_tibble(dat)
+
   dat <-
-    tibble::as_tibble(dat) %>%
+    dat |>
     dplyr::mutate(
-      linear_pred = rlang::eval_tidy(linear_pred, data = .),
+      linear_pred = rlang::eval_tidy(linear_pred, data = dat),
       .truth = stats::binomial()$linkinv(linear_pred),
       rand = stats::runif(num_samples),
       class = ifelse(rand <= .truth, "class_1", "class_2"),
       class = factor(class, levels = c("class_1", "class_2"))
-    ) %>%
-    dplyr::select(-linear_pred, -rand) %>%
+    ) |>
+    dplyr::select(-linear_pred, -rand) |>
     dplyr::relocate(class)
 
   if (!keep_truth) {
@@ -322,18 +374,40 @@ sim_classification <- function(num_samples = 100, method = "caret",
 #' @export
 #' @rdname sim_classification
 sim_regression <-
-  function(num_samples = 100, method = "sapp_2014_1", std_dev = NULL, factors = FALSE, keep_truth = FALSE) {
-    reg_methods <- c("sapp_2014_1", "sapp_2014_2", "van_der_laan_2007_1",
-                     "van_der_laan_2007_2", "hooker_2004")
+  function(
+    num_samples = 100,
+    method = "sapp_2014_1",
+    std_dev = NULL,
+    factors = FALSE,
+    keep_truth = FALSE
+  ) {
+    reg_methods <- c(
+      "sapp_2014_1",
+      "sapp_2014_2",
+      "van_der_laan_2007_1",
+      "van_der_laan_2007_2",
+      "hooker_2004",
+      "worley_1987"
+    )
     method <- rlang::arg_match0(method, reg_methods, arg_nm = "method")
+    check_number_whole(num_samples, min = 1)
+    check_number_decimal(std_dev, allow_null = TRUE)
+    check_single_logical(factors)
+    check_single_logical(keep_truth)
 
     dat <-
-      switch(method,
-             sapp_2014_1 = sapp_2014_1(num_samples, std_dev),
-             sapp_2014_2 = sapp_2014_2(num_samples, std_dev),
-             van_der_laan_2007_1 = van_der_laan_2007_1(num_samples, std_dev, factors = factors),
-             van_der_laan_2007_2 = van_der_laan_2007_2(num_samples, std_dev),
-             hooker_2004 = hooker_2004(num_samples, std_dev)
+      switch(
+        method,
+        sapp_2014_1 = sapp_2014_1(num_samples, std_dev),
+        sapp_2014_2 = sapp_2014_2(num_samples, std_dev),
+        van_der_laan_2007_1 = van_der_laan_2007_1(
+          num_samples,
+          std_dev,
+          factors = factors
+        ),
+        van_der_laan_2007_2 = van_der_laan_2007_2(num_samples, std_dev),
+        hooker_2004 = hooker_2004(num_samples, std_dev),
+        worley_1987 = worley_1987(num_samples, std_dev)
       )
 
     if (!keep_truth) {
@@ -353,21 +427,30 @@ sapp_2014_1 <- function(num_samples = 100, std_dev = NULL) {
   dat <- tibble::as_tibble(dat)
 
   slc_14 <- rlang::expr(
-    predictor_01 + sin(predictor_02) + log(abs(predictor_03)) +
-      predictor_04^2 + predictor_05 * predictor_06 +
+    predictor_01 +
+      sin(predictor_02) +
+      log(abs(predictor_03)) +
+      predictor_04^2 +
+      predictor_05 * predictor_06 +
       ifelse(predictor_07 * predictor_08 * predictor_09 < 0, 1, 0) +
-      ifelse(predictor_10 > 0, 1, 0) + predictor_11 * ifelse(predictor_11 > 0, 1, 0) +
-      sqrt(abs(predictor_12)) + cos(predictor_13) + 2 * predictor_14 + abs(predictor_15) +
-      ifelse(predictor_16 < -1, 1, 0) + predictor_17 * ifelse(predictor_17 < -1, 1, 0) -
-      2 * predictor_18 - predictor_19 * predictor_20
+      ifelse(predictor_10 > 0, 1, 0) +
+      predictor_11 * ifelse(predictor_11 > 0, 1, 0) +
+      sqrt(abs(predictor_12)) +
+      cos(predictor_13) +
+      2 * predictor_14 +
+      abs(predictor_15) +
+      ifelse(predictor_16 < -1, 1, 0) +
+      predictor_17 * ifelse(predictor_17 < -1, 1, 0) -
+      2 * predictor_18 -
+      predictor_19 * predictor_20
   )
 
   dat <-
-    tibble::as_tibble(dat) %>%
+    dat |>
     dplyr::mutate(
-      .truth = rlang::eval_tidy(slc_14, data = .),
+      .truth = rlang::eval_tidy(slc_14, data = dat),
       outcome = .truth + stats::rnorm(num_samples, sd = std_dev)
-    ) %>%
+    ) |>
     dplyr::relocate(outcome)
 
   dat
@@ -390,7 +473,11 @@ sapp_2014_2 <- function(num_samples = 100, std_dev = 4) {
   dplyr::relocate(dat, outcome)
 }
 
-van_der_laan_2007_1 <- function(num_samples = 100, std_dev = NULL, factors = FALSE) {
+van_der_laan_2007_1 <- function(
+  num_samples = 100,
+  std_dev = NULL,
+  factors = FALSE
+) {
   if (is.null(std_dev)) {
     std_dev <- 1
   }
@@ -399,24 +486,29 @@ van_der_laan_2007_1 <- function(num_samples = 100, std_dev = NULL, factors = FAL
   dat <- tibble::as_tibble(dat)
 
   lph_07 <- rlang::expr(
-    2 * predictor_01 * predictor_10 + 4 * predictor_02 * predictor_07 + 3 * predictor_04 *
-      predictor_05 - 5 * predictor_06 * predictor_10 + 3 * predictor_08 * predictor_09 +
+    2 *
+      predictor_01 *
+      predictor_10 +
+      4 * predictor_02 * predictor_07 +
+      3 * predictor_04 * predictor_05 -
+      5 * predictor_06 * predictor_10 +
+      3 * predictor_08 * predictor_09 +
       predictor_01 * predictor_02 * predictor_04 -
-      2 * predictor_07 * (1 - predictor_06) * predictor_02 *
-      predictor_09 - 4 * (1 - predictor_10) * predictor_01 * (1 - predictor_04)
+      2 * predictor_07 * (1 - predictor_06) * predictor_02 * predictor_09 -
+      4 * (1 - predictor_10) * predictor_01 * (1 - predictor_04)
   )
 
   dat <-
-    tibble::as_tibble(dat) %>%
+    dat |>
     dplyr::mutate(
-      .truth = rlang::eval_tidy(lph_07, data = .),
+      .truth = rlang::eval_tidy(lph_07, data = dat),
       outcome = .truth + stats::rnorm(num_samples, sd = std_dev)
-    ) %>%
+    ) |>
     dplyr::relocate(outcome)
 
   if (factors) {
     dat <-
-      dat %>%
+      dat |>
       dplyr::mutate(
         dplyr::across(2:11, ~ ifelse(.x == 1, "yes", "no")),
         dplyr::across(2:11, ~ factor(.x, levels = c("yes", "no")))
@@ -435,17 +527,23 @@ van_der_laan_2007_2 <- function(num_samples = 100, std_dev = NULL) {
   dat <- tibble::as_tibble(dat)
 
   lph_07 <- rlang::expr(
-    predictor_01 * predictor_02 + predictor_10^2 - predictor_03 * predictor_17 -
-      predictor_15 * predictor_04 + predictor_09 * predictor_05 + predictor_19 -
-      predictor_20^2 + predictor_09 * predictor_08
+    predictor_01 *
+      predictor_02 +
+      predictor_10^2 -
+      predictor_03 * predictor_17 -
+      predictor_15 * predictor_04 +
+      predictor_09 * predictor_05 +
+      predictor_19 -
+      predictor_20^2 +
+      predictor_09 * predictor_08
   )
 
   dat <-
-    tibble::as_tibble(dat) %>%
+    dat |>
     dplyr::mutate(
-      .truth = rlang::eval_tidy(lph_07, data = .),
+      .truth = rlang::eval_tidy(lph_07, data = dat),
       outcome = .truth + stats::rnorm(num_samples, sd = std_dev)
-    ) %>%
+    ) |>
     dplyr::relocate(outcome)
 
   dat
@@ -462,38 +560,109 @@ hooker_2004 <- function(num_samples = 100, std_dev = NULL) {
   colnames(uni_1) <- all_names[c(1, 2, 3, 6, 7, 9)]
   colnames(uni_2) <- all_names[c(4, 5, 8, 10)]
   dat <- cbind(uni_1, uni_2)
-  dat <- tibble::as_tibble(dat) %>% dplyr::select(dplyr::all_of(all_names))
+  dat <- tibble::as_tibble(dat) |> dplyr::select(dplyr::all_of(all_names))
 
   hooker_2004 <- rlang::expr(
-    pi ^ (predictor_01 * predictor_02) * sqrt( 2 * predictor_03 ) -
-      asin(predictor_04) + log(predictor_03  + predictor_05) -
-      (predictor_09 / predictor_10) * sqrt (predictor_07 / predictor_08) -
+    pi^(predictor_01 * predictor_02) *
+      sqrt(2 * predictor_03) -
+      asin(predictor_04) +
+      log(predictor_03 + predictor_05) -
+      (predictor_09 / predictor_10) * sqrt(predictor_07 / predictor_08) -
       predictor_02 * predictor_07
   )
 
   dat <-
-    tibble::as_tibble(dat) %>%
+    dat |>
     dplyr::mutate(
-      .truth = rlang::eval_tidy(hooker_2004, data = .),
+      .truth = rlang::eval_tidy(hooker_2004, data = dat),
       outcome = .truth + stats::rnorm(num_samples, sd = std_dev)
-    ) %>%
+    ) |>
     dplyr::relocate(outcome)
 
   dat
+}
+
+worley_1987 <- function(num_samples = 100, std_dev = 0.25) {
+  if (is.null(std_dev)) {
+    std_dev <- 0.25
+  }
+  radius_borehole <- runif(num_samples, min = 0.05, max = 0.15)
+  length_borehole <- runif(num_samples, min = 1120, max = 1680)
+  radius_influence <- 10^runif(num_samples, min = 2, max = log10(50000))
+  transmissibility_upper_aq <- 10^runif(
+    num_samples,
+    min = log10(63070),
+    max = log10(115600)
+  )
+  potentiometric_upper_aq <- runif(num_samples, min = 990, max = 1110)
+  transmissibility_lower_aq <- runif(num_samples, min = 63.1, max = 116)
+  potentiometric_lower_aq <- runif(num_samples, min = 700, max = 820)
+  # conductivity_borehole <- runif(num_samples, min = 9855, max = 12045)
+  # expanded range from Moriss at al
+  conductivity_borehole <- 10^runif(
+    num_samples,
+    min = log10(1500),
+    max = log10(15000)
+  )
+
+  numer <- 2 *
+    pi *
+    transmissibility_upper_aq *
+    (potentiometric_upper_aq - potentiometric_lower_aq)
+
+  denom_1 <- log(radius_influence / radius_borehole)
+
+  denom_2 <- 2 *
+    length_borehole *
+    transmissibility_upper_aq /
+    (denom_1 * radius_borehole^2 * conductivity_borehole)
+
+  denom_3 <- transmissibility_upper_aq / transmissibility_lower_aq
+
+  error <- exp(rnorm(num_samples, mean = 0, sd = std_dev))
+
+  tibble::tibble(
+    .truth = numer / (denom_1 * (1 + denom_2 + denom_3)),
+    outcome = .truth * error,
+    radius_borehole = radius_borehole,
+    length_borehole = length_borehole,
+    radius_influence = radius_influence,
+    transmissibility_upper_aq = transmissibility_upper_aq,
+    potentiometric_upper_aq = potentiometric_upper_aq,
+    transmissibility_lower_aq = transmissibility_lower_aq,
+    potentiometric_lower_aq = potentiometric_lower_aq,
+    conductivity_borehole = conductivity_borehole
+  )
 }
 
 # ------------------------------------------------------------------------------
 
 #' @export
 #' @rdname sim_classification
-sim_noise <- function(num_samples, num_vars, cov_type = "exchangeable",
-                      outcome = "none", num_classes = 2, cov_param = 0) {
-  cov_type <- rlang::arg_match0(cov_type, c("exchangeable", "toeplitz"),
-                                arg_nm = "cov_type"
+sim_noise <- function(
+  num_samples,
+  num_vars,
+  cov_type = "exchangeable",
+  outcome = "none",
+  num_classes = 2,
+  cov_param = 0
+) {
+  cov_type <- rlang::arg_match0(
+    cov_type,
+    c("exchangeable", "toeplitz"),
+    arg_nm = "cov_type"
   )
-  outcome <- rlang::arg_match0(outcome, c("none", "classification", "regression"),
-                               arg_nm = "outcome"
+  outcome <- rlang::arg_match0(
+    outcome,
+    c("none", "classification", "regression"),
+    arg_nm = "outcome"
   )
+
+  check_number_whole(num_samples, min = 1)
+  check_number_whole(num_vars, min = 1)
+  check_number_whole(num_classes, min = 2)
+  check_number_decimal(cov_param)
+
   if (cov_type == "exchangeable") {
     var_cov <- matrix(cov_param, ncol = num_vars, nrow = num_vars)
     diag(var_cov) <- 1
@@ -506,21 +675,18 @@ sim_noise <- function(num_samples, num_vars, cov_type = "exchangeable",
   dat <- tibble::as_tibble(dat)
 
   if (outcome == "classification") {
-    if (num_classes <= 0) {
-      rlang::abort("'num_classes' should be a positive integer.")
-    }
     cls <- names0(num_classes, "class_")
     dat <-
-      dat %>%
+      dat |>
       dplyr::mutate(
         class = sample(cls, num_samples, replace = TRUE),
         class = factor(class, levels = cls)
-      ) %>%
+      ) |>
       dplyr::relocate(class)
   } else if (outcome == "regression") {
     dat <-
-      dat %>%
-      dplyr::mutate(outcome = stats::rnorm(num_samples)) %>%
+      dat |>
+      dplyr::mutate(outcome = stats::rnorm(num_samples)) |>
       dplyr::relocate(outcome)
   }
   dat
@@ -530,26 +696,39 @@ sim_noise <- function(num_samples, num_vars, cov_type = "exchangeable",
 
 #' @export
 #' @rdname sim_classification
-sim_logistic <- function(num_samples, eqn, correlation = 0, keep_truth = FALSE) {
+sim_logistic <- function(
+  num_samples,
+  eqn,
+  correlation = 0,
+  keep_truth = FALSE
+) {
+  check_number_whole(num_samples, min = 1)
+  check_number_decimal(correlation)
+  check_single_logical(keep_truth)
+
   sigma <- matrix(c(1, correlation, correlation, 1), 2, 2)
   eqn <- rlang::get_expr(eqn)
   check_equations(eqn)
   dat <-
-    data.frame(MASS::mvrnorm(n = num_samples, c(0, 0), sigma)) %>%
-    stats::setNames(LETTERS[1:2]) %>%
+    data.frame(MASS::mvrnorm(n = num_samples, c(0, 0), sigma)) |>
+    stats::setNames(LETTERS[1:2]) |>
+    tibble::as_tibble()
+
+  dat <-
+    dat |>
     dplyr::mutate(
-      .linear_pred = rlang::eval_tidy(eqn, data = .),
+      .linear_pred = rlang::eval_tidy(eqn, data = dat),
       .linear_pred = as.numeric(.linear_pred),
       .truth = stats::binomial()$linkinv(.linear_pred),
       .rand = stats::runif(num_samples),
       class = ifelse(.rand <= .truth, "one", "two"),
       class = factor(class, levels = c("one", "two"))
-    ) %>%
-    dplyr::select(-.rand) %>%
+    ) |>
+    dplyr::select(-.rand) |>
     tibble::as_tibble()
 
   if (!keep_truth) {
-    dat <- dat %>% dplyr::select(-.truth, -.linear_pred)
+    dat <- dat |> dplyr::select(-.truth, -.linear_pred)
   }
   dat
 }
@@ -558,29 +737,43 @@ sim_logistic <- function(num_samples, eqn, correlation = 0, keep_truth = FALSE) 
 
 #' @export
 #' @rdname sim_classification
-sim_multinomial <- function(num_samples, eqn_1, eqn_2, eqn_3, correlation = 0, keep_truth = FALSE) {
+sim_multinomial <- function(
+  num_samples,
+  eqn_1,
+  eqn_2,
+  eqn_3,
+  correlation = 0,
+  keep_truth = FALSE
+) {
+  check_number_whole(num_samples, min = 1)
+  check_number_decimal(correlation)
+  check_single_logical(keep_truth)
+
   sigma <- matrix(c(1, correlation, correlation, 1), 2, 2)
   eqn_1 <- rlang::get_expr(eqn_1)
   eqn_2 <- rlang::get_expr(eqn_2)
   eqn_3 <- rlang::get_expr(eqn_3)
   purrr::map_lgl(list(eqn_1, eqn_2, eqn_3), check_equations)
 
+  dat <- data.frame(MASS::mvrnorm(n = num_samples, c(0, 0), sigma)) |>
+    stats::setNames(LETTERS[1:2]) |>
+    tibble::as_tibble()
+
   dat <-
-    data.frame(MASS::mvrnorm(n = num_samples, c(0, 0), sigma)) %>%
-    stats::setNames(LETTERS[1:2]) %>%
+    dat |>
     dplyr::mutate(
-      .formula_1 = rlang::eval_tidy(eqn_1, data = .),
-      .formula_2 = rlang::eval_tidy(eqn_2, data = .),
-      .formula_3 = rlang::eval_tidy(eqn_3, data = .),
+      .formula_1 = rlang::eval_tidy(eqn_1, data = dat),
+      .formula_2 = rlang::eval_tidy(eqn_2, data = dat),
+      .formula_3 = rlang::eval_tidy(eqn_3, data = dat),
       dplyr::across(c(dplyr::starts_with(".formula_")), ~ exp(.x))
     )
   probs <- as.matrix(dplyr::select(dat, dplyr::starts_with(".formula_")))
-  probs <- t(apply(probs, 1, function(x) x/sum(x)))
+  probs <- t(apply(probs, 1, function(x) x / sum(x)))
   which_class <- function(x) which.max(stats::rmultinom(1, 1, x))
   index <- apply(probs, 1, which_class)
   lvls <- c("one", "two", "three")
   dat$class <- factor(lvls[index], levels = lvls)
-  dat <- dat %>% dplyr::select(-dplyr::starts_with(".formula_"))
+  dat <- dat |> dplyr::select(-dplyr::starts_with(".formula_"))
   if (keep_truth) {
     colnames(probs) <- paste0(".truth_", lvls)
     probs <- tibble::as_tibble(probs)
@@ -595,17 +788,31 @@ check_equations <- function(x, expected = LETTERS[1:2]) {
   used <- sort(all.vars(x))
   its_fine <- length(setdiff(used, expected)) == 0
   if (!its_fine) {
-    rlang::abort("The model equations should only use variables/objects `A` and `B`")
+    cli::cli_abort("The model equations should only use variables/objects
+                   {.code A} and {.code B}.")
   }
   invisible(its_fine)
 }
 
 names0 <- function(num, prefix = "x") {
   if (num < 1) {
-    rlang::abort("`num` should be > 0")
+    cli::cli_abort("{.arg num} should be > 0")
   }
   ind <- format(1:num)
   ind <- gsub(" ", "0", ind)
   paste0(prefix, ind)
+}
+
+check_single_logical <- function(x, call = rlang::caller_env()) {
+  cl <- match.call()
+  arg_nm <- as.character(cl$x)
+  msg <- "{.arg {arg_nm}} should be a single logical value, not {obj_type_friendly(x)}."
+  if (!is.logical(x)) {
+    cli::cli_abort(msg, call = call)
+  }
+  if (length(x) > 1 || any(is.na(x))) {
+    cli::cli_abort(msg, call = call)
+  }
+  invisible(x)
 }
 

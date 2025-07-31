@@ -1,3 +1,9 @@
+# modeldata 1.5.0
+
+* Added a new regression simulation function via `method = "worley_1987"`.
+
+* Transition from the magrittr pipe to the base R pipe.
+
 # modeldata 1.4.0
 
 * Added the `cat_adoption` data set.  
