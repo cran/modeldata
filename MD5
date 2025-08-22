@@ -1,7 +1,7 @@
-a670aa4bb434607d5afc4243fe52e24d *DESCRIPTION
+f376574096b2a044b44a934ee7f95984 *DESCRIPTION
 14de833791761cabfb296b6e556e6279 *LICENSE
 9d92eee379d1827d5bffef1f3822169a *NAMESPACE
-cca9d800caccd77bfdd8a4437debb9d8 *NEWS.md
+3d40fee3d062a2d9f5b93ef13f5ba442 *NEWS.md
 da59251dad6a0d68563c54111a7ea91e *R/Chicago.R
 540cf5f818f50dbda8e2fa96069682af *R/Smithsonian.R
 3d8a342edc3e896b3f7ea1b22f49ca80 *R/ad_data.R
@@ -30,7 +30,7 @@ e4f1602fef91617b2ae1c7196dc38ddb *R/hepatic_injury_qsar.R
 dc3fd7c398822ebae712296cd5d93316 *R/import-standalone-obj-type.R
 1b3b3286c085022ec42a55dff946fd53 *R/import-standalone-types-check.R
 12f5c52188cd036f1a1cdf9619b6b88a *R/ischemic_stroke.R
-37378ad30777d041580ea63ed02be34f *R/leaf_id_flavia.R
+4960da2bd52b6b015a17ec39b674cf6b *R/leaf_id_flavia.R
 bb2dc8a98d999164aa22b7764875e82a *R/lending_club.R
 8d01e787468effd71c08bdc40fed8921 *R/meats.R
 ad7db204a871fa3ae855078605acc11d *R/modeldata-package.R
@@ -42,7 +42,7 @@ bd848447331e9cdb5dde901e493da54d *R/pd_speech.R
 f1aafe8c7f81971da941612f7e1f7796 *R/permeability_qsar.R
 19ef2bebeee54b50814c7054e7e70847 *R/sacremento.R
 bf50595dd8c7317003f9593d4a9f5b71 *R/scat.R
-475deb3952977108ca3277fb9cefb220 *R/simulations.R
+29bed88e3ec23a34274ac210a073c2fe *R/simulations.R
 2eb872a5145efaa5561f0ca678dd2b59 *R/solubility.R
 2b5fddae8728d85857ce1862eac1155c *R/stackoverflow.R
 d1d485c16ccc64561f70bbc13ceae71b *R/steroidogenic_toxicity.R
@@ -78,7 +78,7 @@ ea47fd07c08fe77749be3eb32460609c *data/hotel_rates.rda
 c367f3840cfdc20e731d788648e29f8e *data/hpc_cv.rda
 2615a95abd1963f56498e52d8a0bed24 *data/hpc_data.RData
 7d2777190bebc52cdc733d0565da0e23 *data/ischemic_stroke.rda
-988484a4569534958ea84f046897a079 *data/leaf_id_flavia.rda
+cd596dd5641e93e51691b8dbfe794074 *data/leaf_id_flavia.rda
 1cec446b8e805c2e85a754dd859edaa2 *data/lending_club.rda
 29d81fda141b85f90dc70651abd8c811 *data/meats.RData
 04328d682ca97967930f7d0cd3b112f3 *data/mlc_churn.RData
@@ -124,7 +124,7 @@ a1b8c987c676c16af790f563f96cbb1f *man/figures/lifecycle-deprecated.svg
 694cfe7a3678428bc2e8b4474023248a *man/hpc_cv.Rd
 f2f5a10d70193ddcd52e4cd6643759a8 *man/hpc_data.Rd
 6c01639f8b019a5d9670a2b59c4ecee3 *man/ischemic_stroke.Rd
-fcddcf41cf9f64dc1926c2ddfb3c3880 *man/leaf_id_flavia.Rd
+b59c05dcfc62b1492f2947d5d71ce484 *man/leaf_id_flavia.Rd
 93a1d984c794c1b13549dc58257b359d *man/lending_club.Rd
 7aaec813e9f2310c1b52e475e1947f03 *man/meats.Rd
 150b1f377152f0834e5e45c8add9e010 *man/mlc_churn.Rd
@@ -137,7 +137,7 @@ ebe466adc1443ccb1f8ed5d133a9f8b6 *man/penguins.Rd
 7cb40e8bb4786663188864618675379f *man/permeability_qsar.Rd
 568c0ce1cf7d4f74bbda8a139b41fe42 *man/rmd/ames.md
 bc365d3d329ca038f4acb91379c52b6a *man/scat.Rd
-af46a2a1ddbe5a9de092373b00d9d7d8 *man/sim_classification.Rd
+ae8d92981714b8348e7e7f3a1722a75b *man/sim_classification.Rd
 a307b14278c84f680d54199681499eba *man/small_fine_foods.Rd
 b6d77e683d4ec39729f6fd4bec160821 *man/solubility_test.Rd
 789b27e129fa9d10c38b4510ab22e827 *man/stackoverflow.Rd

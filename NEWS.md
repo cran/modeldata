@@ -1,3 +1,7 @@
+# modeldata 1.5.1
+
+* Small release to fix typos in documentation and column names. 
+
 # modeldata 1.5.0
 
 * Added a new regression simulation function via `method = "worley_1987"`.
